@@ -41,3 +41,13 @@ def NetIp(ip, mask):
 
     return net_ip, bin_net_ip
 
+
+def CIP(ip):
+
+    classe_str = "ABCDE"
+    first_octet = DTB(ip).split('.')[0]
+    for i in first_octet:
+        if i == '0':
+            return classe_str[first_octet.index(i)]
+        else:
+            return classe_str[4]

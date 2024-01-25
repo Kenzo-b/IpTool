@@ -10,12 +10,16 @@ class ipv4:
         self.mask = self.verif_mask(mask)
         last_id += 1
         self.id = last_id
+        self.classe_ip = IPv4.CIP(self.ip)
 
     def get_ip(self):
         return self.ip
 
     def get_mask(self):
         return self.mask
+
+    def get_classe(self):
+        return self.classe_ip
 
     def set_ip(self, ip):
         self.ip = self.verif_ip(ip)
