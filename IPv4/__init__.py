@@ -8,6 +8,13 @@ def IsIp(ip):
     return re.match(pattern, ip)
 
 
+def IsCidr(cidr):
+    """check if a string is a CIDR and return a boolean"""
+
+    pattern = "^(/(3[0-2]|2[0-9]|1[0-9]|[1-9]))$"
+    return re.match(cidr, pattern)
+
+
 def IsMask(mask):
     """check if a string is a mask and return a boolean"""
 
@@ -43,6 +50,7 @@ def NetIp(ip, mask):
 
 
 def CIP(ip):
+    """take a dec ip and return the char of it ip classe"""
 
     classe_str = "ABCDE"
     first_octet = DTB(ip).split('.')[0]
@@ -51,3 +59,13 @@ def CIP(ip):
             return classe_str[first_octet.index(i)]
         else:
             return classe_str[4]
+
+
+def CTBM(cidr):
+    """take a cidr notation string and return a binary mask string -> n.n.n.n"""
+
+    o_bit_nb = int(cidr.split("/")[1])
+    z_bit_nb = 32 - int(o_bit_nb)
+    str_bin_mask = "" + "1" * o_bit_nb + "0" * z_bit_nb
+    bin_mask = ".".join(str_bin_mask[i:i + 8] for i in range(0, len(str_bin_mask), 8))
+    return bin_mask
