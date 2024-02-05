@@ -22,21 +22,21 @@ def IsMask(mask):
     return re.match(pattern, mask)
 
 
-def DTB(dec_p):
+def DTB(dec_p: str):
     """take a decimal pointed form and return it binary pointed form -> bin.bin.bin.bin"""
 
     bin_p = '.'.join([bin(int(octet))[2:].zfill(8) for octet in dec_p.split('.')])
     return bin_p
 
 
-def BTD(bin_p):
+def BTD(bin_p: str):
     """take a binary pointed form and return it decimal pointed form -> dec.dec.dec.dec"""
 
     dec_p = '.'.join(str(int(octet, 2)) for octet in bin_p.split('.'))
     return dec_p
 
 
-def NetIp(ip, mask):
+def NetIp(ip: str, mask: str):
     """Calculate a network IPv4 with an AND operation and return both dec and bin form
     -> bin.bin.bin.bin <=> dec.dec.dec.dec"""
 
@@ -50,7 +50,7 @@ def NetIp(ip, mask):
     return net_ip, bin_net_ip
 
 
-def CIP(ip):
+def CIP(ip: str):
     """take a dec ip and return the char of it ip classe -> "X" """
 
     classe_str = "ABCDE"
@@ -62,7 +62,7 @@ def CIP(ip):
             return classe_str[4]
 
 
-def CITBM(cidr):
+def CITBM(cidr: str):
     """take a cidr notation string and return a binary mask string -> bin.bin.bin.bin"""
 
     o_bit_nb = int(cidr.split("/")[1])
@@ -72,7 +72,7 @@ def CITBM(cidr):
     return bin_mask
 
 
-def CTBM(classe_ip):
+def CTBM(classe_ip: chr):
     """take an ip classe and return a binary mask string -> bin.bin.bin.bin"""
 
     classe = {"A": 8, "B": 16, "C": 24, "D": 28, "E": 28}
@@ -82,3 +82,19 @@ def CTBM(classe_ip):
             bin_mask = ".".join(str_bin_mask[i:i + 8] for i in range(0, len(str_bin_mask), 8))
             return bin_mask
 
+
+def BrdIp(ip: str, mask: str):
+
+    str_bin_mask = list("".join(DTB(mask).split('.')))
+    str_bin_ip = list("".join(DTB(ip).split('.')))
+
+    broadcast_address = ""
+    for i in range(len(str_bin_mask)):
+        if str_bin_mask[i] == "0":
+            broadcast_address += "1"
+        else:
+            broadcast_address += str_bin_ip[i]
+
+    broadcast_ip = ".".join([str(int(broadcast_address[i:i + 8], 2)) for i in range(0, 32, 8)])
+
+    return broadcast_ip
