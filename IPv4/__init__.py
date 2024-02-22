@@ -84,9 +84,10 @@ def CTBM(classe_ip: chr):
 
 
 def BrdIp(ip: str, mask: str):
+    """take an ip str and a mask str and return a broadcast ip string -> int.int.int.int"""
 
-    str_bin_mask = list("".join(DTB(mask).split('.')))
-    str_bin_ip = list("".join(DTB(ip).split('.')))
+    str_bin_mask = "".join(DTB(mask).split('.'))
+    str_bin_ip = "".join(DTB(ip).split('.'))
 
     broadcast_address = ""
     for i in range(len(str_bin_mask)):
@@ -98,3 +99,35 @@ def BrdIp(ip: str, mask: str):
     broadcast_ip = ".".join([str(int(broadcast_address[i:i + 8], 2)) for i in range(0, 32, 8)])
 
     return broadcast_ip
+
+
+def NbHost(mask: str):
+    """take a mask string and return number of host possible integer"""
+
+    str_bin_mask = "".join(DTB(mask).split('.'))
+
+    return 2 ** len(str_bin_mask[str_bin_mask.find("0"):len(str_bin_mask)]) - 2
+
+
+def NbSR(mask1: str, mask2: str):
+
+    mask1 = "".join(DTB(mask1).split('.'))
+    mask2 = "".join(DTB(mask2).split('.'))
+
+    if int(mask1) > int(mask2):
+
+        last_ind = int("".join(str(mask1.find("0"))))
+        first_ind = int("".join(str(mask2.find("0"))))
+
+        return 2 ** (last_ind - first_ind)
+
+    elif int(mask1) < int(mask2):
+
+        last_ind = int("".join(str(mask2.find("0"))))
+        first_ind = int("".join(str(mask1.find("0"))))
+
+        return 2 ** (last_ind - first_ind)
+
+    elif int(mask1) == int(mask2):
+
+        return 0

@@ -5,7 +5,7 @@ class ipv4:
 
     last_id = 0
 
-    def __init__(self, ip, mask, last_id):
+    def __init__(self, ip: str, mask: str, last_id: int):
         self.ip = self.verif_ip(ip)
         self.mask = self.verif_mask(mask)
         last_id += 1
