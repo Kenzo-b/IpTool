@@ -1,4 +1,4 @@
-import re, sys
+import re
 
 
 def is_ip(ip):
@@ -166,46 +166,40 @@ def addr_range(ip: str, mask: str):
 def all_addr_range(ip: str, mask1: str, mask2: str):
     """take an ip and 2 mask format string and return all the subnet range in a list -> [[net_ip, broadcast_ip], ...]"""
 
-    try:
+    if is_ip(ip) is False:
+        raise IpFormatError
+    if is_mask(mask1) and is_mask(mask2) is False:
+        raise MaskFormatError
 
-        if is_ip(ip) is False:
-            raise IpFormatError
-        if is_mask(mask1) and is_mask(mask2) is False:
-            raise MaskFormatError
+    ip_bin = "".join(dec_to_bin(ip).split('.'))
+    mask1_bin = "".join(dec_to_bin(mask1).split('.'))
+    mask2_bin = "".join(dec_to_bin(mask2).split('.'))
+    subnet = nb_subnet(mask1, mask2)
+    counter = 0
+    addr_ran_list = []
 
-        ip_bin = "".join(dec_to_bin(ip).split('.'))
-        mask1_bin = "".join(dec_to_bin(mask1).split('.'))
-        mask2_bin = "".join(dec_to_bin(mask2).split('.'))
-        subnet = nb_subnet(mask1, mask2)
-        counter = 0
-        addr_ran_list = []
+    if int(mask1_bin, 2) > int(mask2_bin, 2):
 
-        if int(mask1_bin, 2) > int(mask2_bin, 2):
+        last_ind = mask1_bin.find("0")
+        first_ind = mask2_bin.find("0")
 
-            last_ind = mask1_bin.find("0")
-            first_ind = mask2_bin.find("0")
+        while counter < subnet:
 
-            while counter < subnet:
+            ip_bin = ip_bin[:first_ind] + bin(counter)[2:].zfill(last_ind - first_ind) + ip_bin[last_ind:]
+            modified_ip = bin_str_dec_dotted(ip_bin)
+            addr_ran_list.append(addr_range(modified_ip, mask1))
+            counter += 1
 
-                ip_bin = ip_bin[:first_ind] + bin(counter)[2:].zfill(last_ind - first_ind) + ip_bin[last_ind:]
-                modified_ip = bin_str_dec_dotted(ip_bin)
-                addr_ran_list.append(addr_range(modified_ip, mask1))
-                counter += 1
+    elif int(mask1_bin, 2) < int(mask2_bin, 2):
 
-        elif int(mask1_bin, 2) < int(mask2_bin, 2):
+        last_ind = mask2_bin.find("0")
+        first_ind = mask1_bin.find("0")
 
-            last_ind = mask2_bin.find("0")
-            first_ind = mask1_bin.find("0")
+        while counter < subnet:
 
-            while counter < subnet:
+            ip_bin = ip_bin[:first_ind] + bin(counter)[2:].zfill(last_ind - first_ind) + ip_bin[last_ind:]
+            modified_ip = bin_str_dec_dotted(ip_bin)
+            addr_ran_list.append(addr_range(modified_ip, mask2))
+            counter += 1
 
-                ip_bin = ip_bin[:first_ind] + bin(counter)[2:].zfill(last_ind - first_ind) + ip_bin[last_ind:]
-                modified_ip = bin_str_dec_dotted(ip_bin)
-                addr_ran_list.append(addr_range(modified_ip, mask2))
-                counter += 1
-
-        return addr_ran_list
-
-    except (IpFormatError, MaskFormatError) as e:
-        print(e)
-        sys.exit()
+    return addr_ran_list
