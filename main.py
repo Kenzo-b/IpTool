@@ -1,8 +1,8 @@
 import os
 from ip import *
+from GUI import *
 
-
-IPtool_ind = "IPtool > "
+IPtool_ind = "IPtools> "
 
 
 def i_obj_ip():
@@ -65,8 +65,4 @@ def cli_main():
         except Exception as e:
             print(e)
 
-
-cli_main()
-
-
-#print(IPv4.all_addr_range("192.168.1.1", "255.255.255.0", "255.255.255.224"))
+gui_main()
