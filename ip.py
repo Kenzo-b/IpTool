@@ -11,13 +11,9 @@ def user_friendly_name(name):
 
 class Ipv4:
 
-    last_id = 0
-
-    def __init__(self, ip: str, mask: str, last_id):
+    def __init__(self, ip: str, mask: str):
         self.ip = self.verif_ip(ip)
         self.mask = self.verif_mask(mask)
-        last_id += 1
-        self.id = last_id
         self.classe_ip = IPv4.class_ip(self.ip)
 
     def get_ip(self):

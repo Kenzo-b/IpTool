@@ -9,7 +9,7 @@ def i_obj_ip():
     try:
         ip = input("{}enter an IPv4 address : ".format(IPtool_ind))
         mask = input("{}enter a mask : ".format(IPtool_ind))
-        obj_ip = Ipv4(ip, mask, Ipv4.last_id)
+        obj_ip = Ipv4(ip, mask)
         return obj_ip
     except (IPv4.IpFormatError, IPv4.MaskFormatError):
         i_obj_ip()
@@ -64,5 +64,6 @@ def cli_main():
 
         except Exception as e:
             print(e)
+
 
 gui_main()
