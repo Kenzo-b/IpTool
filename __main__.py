@@ -1,6 +1,7 @@
 import os
 from ip import *
 from GUI import *
+import sys
 
 IPtool_ind = "IPtools> "
 
@@ -66,4 +67,15 @@ def cli_main():
             print(e)
 
 
-gui_main()
+if __name__ == "__main__":
+    try:
+        if len(sys.argv) > 1:
+            for arg in sys.argv:
+                if arg == "-c":
+                    cli_main()
+                if arg == "-g":
+                    gui_main()
+        else:
+            cli_main()
+    except KeyboardInterrupt:
+        sys.exit()
