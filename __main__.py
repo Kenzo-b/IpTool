@@ -8,8 +8,8 @@ IPtool_ind = "IPtools> "
 
 def i_obj_ip():
     try:
-        ip = input("{}enter an IPv4 address : ".format(IPtool_ind))
-        mask = input("{}enter a mask : ".format(IPtool_ind))
+        ip = input("enter an IPv4 address :\n{}".format(IPtool_ind))
+        mask = input("enter a mask :\n{} ".format(IPtool_ind))
         obj_ip = Ipv4(ip, mask)
         return obj_ip
     except (IPv4.IpFormatError, IPv4.MaskFormatError):
@@ -50,13 +50,13 @@ def cli_main():
                         print(help(cmds))
 
                     if key == "7" or key == "9":
-                        mask2 = input("{}enter the second mask : ".format(IPtool_ind))
+                        mask2 = input("enter the second mask :\n{}".format(IPtool_ind))
+                        result = function(obj_ip, mask2)
 
-                        if IPv4.is_mask(mask2):
-
-                            result = function(obj_ip, mask2)
+                        if IPv4.is_mask(mask2) and key == "9":
                             print("\n".join("{} -> {}".format(result[i][0], result[i][1]) for i in range(len(result))))
-
+                        elif IPv4.is_mask(mask2) and key == "7":
+                            print(result)
                         else:
                             raise IPv4.MaskFormatError
                     else:

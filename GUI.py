@@ -22,7 +22,6 @@ def gui_main():
     if os.name == "nt":
         color()
     if os.name == "posix":
-        # Enable transparency for Linux
         root_tk.wait_visibility(root_tk)
         root_tk.wm_attributes("-alpha", 0.9)
         subprocess.Popen(['compton', '--backend', 'glx', '--blur-background', '--blur-method', 'gaussian'])
